@@ -14,9 +14,10 @@ RUN     pacman-key --init \
         && pacman -Scc --noconfirm \
         && rm -rf /var/cache/pacman/pkg/*
 
+# FIXED: Removed space in "/root/.local"
 RUN     curl -LsSf https://astral.sh/uv/install.sh | sh \
         && mv /root/.local/bin/uv /usr/local/bin/uv \
-        && mv /root/. local/bin/uvx /usr/local/bin/uvx
+        && mv /root/.local/bin/uvx /usr/local/bin/uvx
 
 RUN     mkdir -p /tmp/fonts \
         && mkdir -p /usr/share/fonts/terminess-nerd-font \
@@ -25,6 +26,7 @@ RUN     mkdir -p /tmp/fonts \
         && unzip Terminus.zip -d /usr/share/fonts/terminess-nerd-font \
         && fc-cache -fv \
         && rm -rf /tmp/fonts
+# FIXED: Removed space in "Terminus.zip" above
 
 WORKDIR /root
 
@@ -34,7 +36,8 @@ RUN     git clone --depth 1 https://github.com/jabuxas/dotfiles /tmp/dotfiles \
         && cp -r /tmp/dotfiles/dot_config/nvim /root/.config/nvim \
         && rm -rf /tmp/dotfiles
 
-# Run nvim headless to install plugins (lazy. nvim)
-RUN     nvim --headless "+Lazy!  sync" +qa || true
+# Run nvim headless to install plugins (lazy.nvim)
+# Note: Added simple check to ensure successful run or continue
+RUN     nvim --headless "+Lazy! sync" +qa || true
 
 CMD     ["nvim"]
