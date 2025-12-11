@@ -36,10 +36,17 @@ RUN     git clone --depth 1 https://github.com/jabuxas/dotfiles /tmp/dotfiles \
         && cp /tmp/dotfiles/dot_config/tmux/tmux.conf /root/.tmux.conf \
         && rm -rf /tmp/dotfiles
 
+# FIX: Add alias to .bashrc AND ensure .bash_profile sources it
+# (Tmux starts a login shell, which reads .bash_profile, ignoring .bashrc otherwise)
 RUN     echo "alias v=nvim" >> /root/.bashrc \
+        && echo "[[ -f ~/.bashrc ]] && . ~/.bashrc" >> /root/.bash_profile \
         && mkdir -p /root/.config/fish \
         && echo "alias v=nvim" >> /root/.config/fish/config.fish
 
+# Ensure Lazy installs plugins
 RUN     nvim --headless "+Lazy! sync" +qa || true
+
+# Set Term to support colors in Alacritty/Tmux
+ENV     TERM=xterm-256color
 
 CMD     ["alacritty", "-e", "tmux"]
