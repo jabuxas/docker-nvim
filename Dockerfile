@@ -1,9 +1,5 @@
 FROM    archlinux:latest
 
-ENV     RUSTUP_HOME=/usr/local/rustup \
-        CARGO_HOME=/usr/local/cargo \
-        PATH=/usr/local/cargo/bin:$PATH
-
 RUN     pacman-key --init \
         && pacman-key --populate archlinux \
         && pacman -Syu --noconfirm \
@@ -11,16 +7,14 @@ RUN     pacman-key --init \
         neovim \
         base-devel git sudo curl wget unzip ripgrep fd \
         fontconfig \
-        go gopls rust-analyzer jdk-openjdk python python-pip lua luarocks \
+        go gopls rust rust-analyzer jdk-openjdk python python-pip lua luarocks \
         nodejs npm \
         bash fish \
         lazygit \
         && pacman -Scc --noconfirm \
         && rm -rf /var/cache/pacman/pkg/*
 
-RUN     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
-        && . "/usr/local/cargo/env" \
-        && curl -LsSf https://astral.sh/uv/install.sh | sh \
+RUN     curl -LsSf https://astral.sh/uv/install.sh | sh \
         && mv /root/.local/bin/uv /usr/local/bin/uv \
         && mv /root/.local/bin/uvx /usr/local/bin/uvx
 
