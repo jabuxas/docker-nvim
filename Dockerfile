@@ -11,10 +11,10 @@ RUN     pacman-key --init \
         nodejs npm \
         bash fish \
         lazygit \
+        alacritty tmux \
         && pacman -Scc --noconfirm \
         && rm -rf /var/cache/pacman/pkg/*
 
-# FIXED: Removed space in "/root/.local"
 RUN     curl -LsSf https://astral.sh/uv/install.sh | sh \
         && mv /root/.local/bin/uv /usr/local/bin/uv \
         && mv /root/.local/bin/uvx /usr/local/bin/uvx
@@ -26,18 +26,20 @@ RUN     mkdir -p /tmp/fonts \
         && unzip Terminus.zip -d /usr/share/fonts/terminess-nerd-font \
         && fc-cache -fv \
         && rm -rf /tmp/fonts
-# FIXED: Removed space in "Terminus.zip" above
 
 WORKDIR /root
 
-# Clone nvim config from dotfiles
 RUN     git clone --depth 1 https://github.com/jabuxas/dotfiles /tmp/dotfiles \
         && mkdir -p /root/.config \
         && cp -r /tmp/dotfiles/dot_config/nvim /root/.config/nvim \
+        && cp -r /tmp/dotfiles/dot_config/alacritty /root/.config/alacritty \
+        && cp /tmp/dotfiles/dot_config/tmux/tmux.conf /root/.tmux.conf \
         && rm -rf /tmp/dotfiles
 
-# Run nvim headless to install plugins (lazy.nvim)
-# Note: Added simple check to ensure successful run or continue
+RUN     echo "alias v=nvim" >> /root/.bashrc \
+        && mkdir -p /root/.config/fish \
+        && echo "alias v=nvim" >> /root/.config/fish/config.fish
+
 RUN     nvim --headless "+Lazy! sync" +qa || true
 
-CMD     ["nvim"]
+CMD     ["alacritty", "-e", "tmux"]

@@ -2,7 +2,7 @@
 
 set -e
 
-IMAGE_NAME="ghcr.io/jabuxas/docker-nvim"
+IMAGE_NAME="ghcr.io/jabuxas/docker-nvim:main"
 ALIAS_NAME="v"
 
 echo "🔧 Pulling docker-nvim image from ghcr.io..."
