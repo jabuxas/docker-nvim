@@ -20,7 +20,7 @@ RUN     pacman-key --init \
 
 RUN     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
         && . "/usr/local/cargo/env" \
-        && curl -LsSf https://astral.sh/uv/install. sh | sh \
+        && curl -LsSf https://astral.sh/uv/install.sh | sh \
         && mv /root/.local/bin/uv /usr/local/bin/uv \
         && mv /root/.local/bin/uvx /usr/local/bin/uvx
 

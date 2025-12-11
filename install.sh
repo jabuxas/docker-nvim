@@ -2,13 +2,13 @@
 
 set -e
 
-IMAGE_NAME="docker-nvim"
+IMAGE_NAME="ghcr.io/jabuxas/docker-nvim"
 ALIAS_NAME="v"
 
-echo "🔧 Building docker-nvim image..."
-docker build -t "$IMAGE_NAME" "$(dirname "$0")"
+echo "🔧 Pulling docker-nvim image from ghcr.io..."
+docker pull "$IMAGE_NAME"
 
-echo "✅ Image built successfully!"
+echo "✅ Image pulled successfully!"
 
 # Generate the alias command
 ALIAS_CMD="alias $ALIAS_NAME='docker run --rm -it -v \"\$(pwd)\":/workspace -w /workspace -e TERM=xterm-256color $IMAGE_NAME nvim'"
