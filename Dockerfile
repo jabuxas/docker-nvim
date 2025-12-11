@@ -16,9 +16,10 @@ RUN     pacman-key --init \
 
 RUN     curl -LsSf https://astral.sh/uv/install.sh | sh \
         && mv /root/.local/bin/uv /usr/local/bin/uv \
-        && mv /root/.local/bin/uvx /usr/local/bin/uvx
+        && mv /root/. local/bin/uvx /usr/local/bin/uvx
 
 RUN     mkdir -p /tmp/fonts \
+        && mkdir -p /usr/share/fonts/terminess-nerd-font \
         && cd /tmp/fonts \
         && curl -fLO https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Terminus.zip \
         && unzip Terminus.zip -d /usr/share/fonts/terminess-nerd-font \
@@ -33,7 +34,7 @@ RUN     git clone --depth 1 https://github.com/jabuxas/dotfiles /tmp/dotfiles \
         && cp -r /tmp/dotfiles/dot_config/nvim /root/.config/nvim \
         && rm -rf /tmp/dotfiles
 
-# Run nvim headless to install plugins (lazy.nvim)
-RUN     nvim --headless "+Lazy! sync" +qa || true
+# Run nvim headless to install plugins (lazy. nvim)
+RUN     nvim --headless "+Lazy!  sync" +qa || true
 
 CMD     ["nvim"]
